@@ -9,7 +9,7 @@ for i in range(30):
     text_chunks = [chunk for chunk in text.splitlines() if not re.match(r'^\s*$', chunk)]
     cleanText = ""
     for i, chunk in enumerate(text_chunks):
-        cleanText += chunk
+        cleanText += chunk.strip()
         cleanText += '\n'
     sentences = nltk.sent_tokenize(cleanText)
     with open(newFilename, 'w', encoding='utf-8') as f1:

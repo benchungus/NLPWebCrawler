@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 import requests
 from collections import deque
 from urllib import request
-import re
 
 def webScrape(starter_url, keyword1, keyword2): 
 
@@ -41,12 +40,13 @@ def webScrape(starter_url, keyword1, keyword2):
                                         raw = f2.read().decode('utf-8-sig')
                                         soup2  = BeautifulSoup(raw, features="html.parser")
                                         p_tags = soup2.find_all('p')
-                                        for p in p_tags:
-                                            f1.write(p.text)
-                                            f1.write('\n')
-                                        counter += 1
-                                        if counter >= 30:
-                                            break
+                                        if(len(p_tags) > 0):
+                                            for p in p_tags:
+                                                f1.write(p.text)
+                                                f1.write('\n')
+                                            counter += 1
+                                            if counter >= 30:
+                                                break
                                 else:
                                     print("http error")        
                             except requests.exceptions.HTTPError as error:
