@@ -35,26 +35,30 @@ for link in absolute_links:
 
 visited = set()
 
-while len(siteQueue) > 0:
-    url = siteQueue.pop()
+with open('characterwhoisfaq.txt', 'w', encoding="utf-8") as f:
 
-    response = requests.get(url)
+    while len(siteQueue) > 0:
+        url = siteQueue.pop()
 
-    soup = BeautifulSoup(response.text, 'html.parser')
+        response = requests.get(url)
 
-    paragraph = None
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-    for p in soup.find_all('p'):
-        if p.find('b') is not None:
-            all_text = p.text.strip()
-            if all_text.count('\n') <= 1:
-                paragraph = p
-                break
+        paragraph = None
 
-    if paragraph is not None:
-        bold_text = paragraph.find('b').text
-        all_text = paragraph.text.strip()
-        print('First bold text:', bold_text)
-        print('All text:', all_text)
-    else:
-        print('No paragraph found with bold text')
+        for p in soup.find_all('p'):
+            if p.find('b') is not None:
+                all_text = p.text.strip()
+                if all_text.count('\n') <= 1:
+                    paragraph = p
+                    break
+
+        if paragraph is not None:
+            bold_text = paragraph.find('b').text
+            all_text = paragraph.text.strip()
+            f.write("Who is " + bold_text + "?")
+            f.write("\n")
+            f.write(all_text)
+            f.write("\n")
+        else:
+            print('No paragraph found with bold text')
